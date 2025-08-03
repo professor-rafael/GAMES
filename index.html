@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido de Parada do Ônibus Escolar</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        
+        body {
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #0066cc;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .bus-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ff9800;
+        }
+        
+        .intro {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .form-container {
+            background-color: #f5f5f5;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #b3e0ff;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 0 auto;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #388E3C;
+            transform: scale(1.05);
+        }
+        
+        .requests-container {
+            margin-top: 30px;
+        }
+        
+        .requests-title {
+            text-align: center;
+            color: #0066cc;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .request-card {
+            background-color: #e8f5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #4CAF50;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .request-card.new {
+            animation: highlight 2s;
+            border-left: 5px solid #FF9800;
+        }
+
+        @keyframes highlight {
+            0% { background-color: #FFF9C4; }
+            100% { background-color: #e8f5e9; }
+        }
+        
+        .request-card h3 {
+            margin-top: 0;
+            color: #2E7D32;
+        }
+        
+        .request-card p {
+            margin: 8px 0;
+        }
+        
+        .map {
+            background-color: #fffde7;
+            height: 200px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #ffd54f;
+            font-weight: bold;
+            color: #f57f17;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status-pendente {
+            background-color: #FFC107;
+            color: #000;
+        }
+
+        .status-aprovado {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .status-rejeitado {
+            background-color: #F44336;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="bus-icon">🚌</div>
+            <h1>Pedido de Parada do Ônibus Escolar</h1>
+            <p>Solicite uma parada perto da sua casa para o Colégio Estadual Rio Branco!</p>
+        </header>
+        
+        <div class="intro">
+            <p>Este formulário é destinado aos alunos do <strong>Colégio Estadual Rio Branco</strong> que necessitam de uma nova parada de ônibus escolar em seu bairro.</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-group">
+                <label for="student-name">Nome do Aluno:</label>
+                <input type="text" id="student-name" placeholder="Digite seu nome completo">
+            </div>
+            
+            <div class="form-group">
+                <label for="grade">Série/Turma:</label>
+                <input type="text" id="grade" placeholder="Ex: 1º ano A, 2º ano B">
+            </div>
+            
+            <div class="form-group">
+                <label for="address">Endereço para parada:</label>
+                <input type="text" id="address" placeholder="Rua, número, bairro">
+            </div>
+            
+            <div class="form-group">
+                <label for="period">Período que utiliza o ônibus:</label>
+                <select id="period">
+                    <option value="">Selecione</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                    <option value="ambos">Manhã e Tarde</option>
+                </select>
+            </div>
+            
+            <button onclick="submitRequest()">Enviar Solicitação</button>
+        </div>
+        
+        <div class="map">
+            Mapa das paradas existentes será exibido aqui
+        </div>
+        
+        <div class="requests-container">
+            <h2 class="requests-title">Solicitações Recentes</h2>
+            <div id="requests-list">
+                <!-- As solicitações serão carregadas aqui dinamicamente -->
+            </div>
+        </div>
+        
+        <footer>
+            <p>Transporte Escolar - Colégio Estadual Rio Branco</p>
+            <p>Entre em contato: transporte@riobranco.edu.br | (43) 996561825</p>
+        </footer>
+    </div>
+
+    <script>
+        // Armazenamento das solicitações no localStorage
+        const STORAGE_KEY = 'solicitacoes_onibus';
+        
+        // Exemplos iniciais
+        const solicitacoesExemplo = [
+            {
+                id: 1,
+                nome: "Ana Silva",
+                turma: "2º ano A",
+                endereco: "Rua das Flores, 123 - Jardim Primavera",
+                periodo: "Tarde",
+                status: "pendente",
+                data: "2023-10-15T10:30:00"
+            },
+            {
+                id: 2,
+                nome: "Carlos Oliveira",
+                turma: "3º ano B",
+                endereco: "Av. dos Estados, 456 - Centro",
+                periodo: "Manhã",
+                status: "aprovado",
+                data: "2023-10-10T14:15:00"
+            }
+        ];
+
+        // Carregar solicitações ao iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            let solicitacoes = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            
+            if (!solicitacoes || solicitacoes.length === 0) {
+                // Se não houver dados, usar os exemplos
+                solicitacoes = solicitacoesExemplo;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(solicitacoes));
+            }
+            
+            atualizarListaSolicitacoes();
+        });
+
+        // Função para enviar nova solicitação
+        function submitRequest() {
+            const studentName = document.getElementById('student-name').value.trim();
+            const grade = document.getElementById('grade').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const period = document.getElementById('period').value;
+            
+            if (!studentName || !grade || !address || !period) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Criar nova solicitação
+            const novaSolicitacao = {
+                id: Date.now(), // Usa timestamp como ID único
+                nome: studentName,
+                turma: grade,
+                endereco: address,
+                periodo: period,
+                status: "pendente",
+                data: new Date().toISOString()
+            };
+            
+            // Adicionar ao storage
+            let solicitacoes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            solicitacoes.unshift(novaSolicitacao); // Adiciona no início do array
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(solicitacoes));
+            
+            // Atualizar a lista
+            atualizarListaSolicitacoes(true);
+            
+            // Limpar os campos
+            document.getElementById('student-name').value = '';
+            document.getElementById('grade').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('period').value = '';
+            
+            alert('Solicitação enviada com sucesso!');
+        }
+
+        // Função para atualizar a lista de solicitações
+        function atualizarListaSolicitacoes(novaSolicitacao = false) {
+            const requestsList = document.getElementById('requests-list');
+            const solicitacoes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            
+            // Ordenar por data (mais recente primeiro)
+            solicitacoes.sort((a, b) => new Date(b.data) - new Date(a.data));
+            
+            // Limpar a lista
+            requestsList.innerHTML = '';
+            
+            // Adicionar cada solicitação
+            solicitacoes.forEach((solicitacao, index) => {
+                const card = document.createElement('div');
+                card.className = `request-card ${novaSolicitacao && index === 0 ? 'new' : ''}`;
+                
+                // Formatando a data
+                const dataFormatada = new Date(solicitacao.data).toLocaleString('pt-BR');
+                
+                // Traduzir o status
+                let statusText, statusClass;
+                switch(solicitacao.status) {
+                    case 'pendente':
+                        statusText = 'Pendente';
+                        statusClass = 'status-pendente';
+                        break;
+                    case 'aprovado':
+                        statusText = 'Aprovado';
+                        statusClass = 'status-aprovado';
+                        break;
+                    case 'rejeitado':
+                        statusText = 'Rejeitado';
+                        statusClass = 'status-rejeitado';
+                        break;
+                    default:
+                        statusText = solicitacao.status;
+                        statusClass = 'status-pendente';
+                }
+                
+                // Traduzir o período
+                let periodoText;
+                switch(solicitacao.periodo) {
+                    case 'manha':
+                        periodoText = 'Manhã';
+                        break;
+                    case 'tarde':
+                        periodoText = 'Tarde';
+                        break;
+                    case 'noite':
+                        periodoText = 'Noite';
+                        break;
+                    case 'ambos':
+                        periodoText = 'Manhã e Tarde';
+                        break;
+                    default:
+                        periodoText = solicitacao.periodo;
+                }
+                
+                card.innerHTML = `
+                    <h3>${solicitacao.nome} <span class="status-badge ${statusClass}">${statusText}</span></h3>
+                    <p><strong>Turma:</strong> ${solicitacao.turma}</p>
+                    <p><strong>Endereço:</strong> ${solicitacao.endereco}</p>
+                    <p><strong>Período:</strong> ${periodoText}</p>
+                    <p><strong>Data:</strong> ${dataFormatada}</p>
+                `;
+                
+                requestsList.appendChild(card);
+            });
+        }
+
+        // Simular atualização de status (para demonstração)
+        function simularAtualizacaoStatus() {
+            const solicitacoes = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            
+            if (solicitacoes.length > 0) {
+                // Alterar status aleatoriamente para demonstração
+                const randomIndex = Math.floor(Math.random() * solicitacoes.length);
+                const statuses = ['pendente', 'aprovado', 'rejeitado'];
+                const novoStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                if (solicitacoes[randomIndex].status !== novoStatus) {
+                    solicitacoes[randomIndex].status = novoStatus;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(solicitacoes));
+                    atualizarListaSolicitacoes();
+                }
+            }
+        }
+
+        // Atualizar status a cada 30 segundos (apenas para demonstração)
+        setInterval(simularAtualizacaoStatus, 30000);
+    </script>
+</body>
+</html>
